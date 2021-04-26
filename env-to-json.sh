@@ -1,19 +1,17 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
-mkdir -p /home/warrior/projects
-
-if [ -e /home/warrior/projects/config.json ]; then
-  echo "config file exists at /home/warrior/projects/config.json - ignoring environment variables!"
+if [ -e "$HOME/projects/config.json" ]; then
+	echo "config file exists at $HOME/projects/config.json - ignoring environment variables!"
 else
-  echo "saving environment variables to config file at /home/warrior/projects/config.json"
-  jq -n '{
-    "downloader": env.DOWNLOADER,
-    "http_password": env.HTTP_PASSWORD,
-    "http_username": env.HTTP_USERNAME,
-    "selected_project": env.SELECTED_PROJECT,
-    "shared:rsync_threads": env.SHARED_RSYNC_THREADS,
-    "warrior_id": env.WARRIOR_ID,
-    "concurrent_items": env.CONCURRENT_ITEMS
-  }' > /home/warrior/projects/config.json
+	echo "saving environment variables to config file at $HOME/projects/config.json"
+	jq -n '{
+      "downloader": env.DOWNLOADER,
+      "http_password": env.HTTP_PASSWORD,
+      "http_username": env.HTTP_USERNAME,
+      "selected_project": env.SELECTED_PROJECT,
+      "shared:rsync_threads": env.SHARED_RSYNC_THREADS,
+      "warrior_id": env.WARRIOR_ID,
+      "concurrent_items": env.CONCURRENT_ITEMS
+    } | with_entries( select(.value != null) )' >"$HOME/projects/config.json"
 fi
