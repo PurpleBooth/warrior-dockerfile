@@ -1,10 +1,17 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-
-/sbin/setuser warrior /home/warrior/env-to-json.sh
-
-cd /home/warrior/warrior-code2
+set -euo pipefail
 export DOCKER=1
 
-echo "starting warrior"
-exec /sbin/setuser warrior ./warrior-runner.sh >>/var/log/warrior.log 2>&1
+if [ "$1" == "run-warrior3" ]; then
+	env-to-json.sh
+
+	exec run-warrior3 \
+		--projects-dir "$HOME/projects" \
+		--data-dir "$HOME/data" \
+		--warrior-hq "http://warriorhq.archiveteam.org" \
+		--port "8001" \
+		--real-shutdown
+fi
+
+exec "$@"
