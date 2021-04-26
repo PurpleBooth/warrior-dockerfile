@@ -1,5 +1,5 @@
 # Dockerfile for Raspberry Pi 2 and 3
-FROM arm32v5/debian:sid-slim
+FROM arm32v5/debian:stable-slim
 LABEL version="1.0.0" \
 	description="ArchiveTeam Warrior container for Raspberry Pi arm32"
 
@@ -72,7 +72,8 @@ RUN pip install requests \
 	&& pip install warc \
 	&& pip3 install requests \
 	&& pip3 install six \
-	&& pip3 install warc
+	&& pip3 install warc \
+	&& pip3 install zstandard
 
 RUN pip3 install seesaw
 
@@ -83,7 +84,7 @@ RUN mkdir /home/warrior/projects
 # Expose the persistent data to the host.  This will allow the user
 # to not have to reconfigure the container across runs.
 VOLUME /data/data
-VOLUME /home/warrior/projects/config.json
+VOLUME /home/warrior/projects
 
 # Expose web interface port
 EXPOSE 8001
