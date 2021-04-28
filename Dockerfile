@@ -11,24 +11,19 @@ RUN apt-get update \
 # Setup patched wget with lua support
 WORKDIR /tmp
 
-RUN git clone https://github.com/ArchiveTeam/wget-lua.git /tmp/wget
-RUN curl --silent "https://api.github.com/repos/ArchiveTeam/wget-lua/releases/latest" \
-    | grep '"tag_name":' \
-    | sed -E 's/.*"([^"]+)".*/\1/' \
-    | xargs -I {} git -C wget checkout {}
-
+COPY wget-lua wget
 WORKDIR /tmp/wget
 ARG TLSTYPE=openssl
 RUN set -eux \
  && case "${TLSTYPE}" in openssl) SSLPKG=libssl-dev;; gnutls) SSLPKG=gnutls-dev;; *) echo "Unknown TLSTYPE ${TLSTYPE}"; exit 1;; esac \
  && echo "deb http://deb.debian.org/debian $(dpkg --status tzdata|grep Provides|cut -f2 -d'-')-backports main contrib" > /etc/apt/sources.list.d/backports.list \
  && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io update \
- && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io install "${SSLPKG}" build-essential git bzip2 bash rsync gcc zlib1g-dev autoconf flex make automake gettext libidn11 autopoint texinfo gperf ca-certificates wget pkg-config libpsl-dev libidn2-dev lua5.1-dev \
+ && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io install "${SSLPKG}" build-essential gnulib git bzip2 bash rsync gcc zlib1g-dev autoconf flex make automake gettext libidn11 autopoint texinfo gperf ca-certificates wget pkg-config libpsl-dev libidn2-dev lua5.1-dev \
  && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io -t buster-backports install libzstd-dev zstd \
  && cd /tmp/wget \
  && ./bootstrap \
  && ./configure --with-ssl="${TLSTYPE}" -disable-nls \
- && make -j $(nproc) \
+ && make -j "$(nproc)" \
  && src/wget -V | grep -q lua
 
 FROM debian:stable-slim
@@ -58,14 +53,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Install warrior
-RUN pip3 install requests \
-    && pip3 install six \
-    && pip3 install warc \
-    && pip3 install requests \
-    && pip3 install six \
-    && pip3 install warc \
-    && pip3 install zstandard \
-    && pip3 install seesaw
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 
 COPY warrior.sh /usr/local/bin/warrior.sh
 COPY env-to-json.sh /usr/local/bin/env-to-json.sh
