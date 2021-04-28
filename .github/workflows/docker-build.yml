@@ -28,4 +28,4 @@ jobs:
         cache-to: type=inline
         tags: |
           ghcr.io/purplebooth/warrior-dockerfile:latest
-
+          ghcr.io/purplebooth/warrior-dockerfile:git-${{ github.sha }}
