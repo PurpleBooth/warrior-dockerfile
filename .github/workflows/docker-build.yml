@@ -34,3 +34,50 @@ jobs:
         tags: |
           ghcr.io/purplebooth/warrior-dockerfile:latest
           ghcr.io/purplebooth/warrior-dockerfile:git-${{ github.sha }}
+    - uses: chaaz/versio-actions/install@v1.1
+      name: Install versio
+    - run: echo ::set-output "name=PREVIOUS_VERSION::$(  versio info -R -a -V | jq
+        -r .[0].version )"
+      id: get_previous_version
+    - run: echo ::set-output "name=BUMP::$( versio release --dry-run )"
+      id: get_versio_plan
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_USER: ${{ github.actor }}
+    - name: Generate release
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      run: |
+        versio release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_USER: ${{ github.actor }}
+    - run: echo ::set-output "name=VERSION::$(  versio info -R -a -V | jq -r .[0].version
+        )"
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      id: get_version
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+        push: ${{ github.ref == 'refs/heads/master' }}
+        cache-from: type=registry,ref=ghcr.io/purplebooth/warrior-dockerfile:latest
+        cache-to: type=inline
+        tags: |
+          ghcr.io/purplebooth/warrior-dockerfile:v${{ steps.get_version.outputs.VERSION }}
+    - uses: dlavrenuek/conventional-changelog-action@v1.1.1
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      id: changelog
+      with:
+        from: v${{ steps.get_previous_version.outputs.PREVIOUS_VERSION }}
+        to: v${{ steps.get_version.outputs.VERSION }}
+    - id: create_release
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      uses: actions/create-release@v1.1.4
+      with:
+        draft: false
+        prerelease: false
+        body: ${{ steps.changelog.outputs.body }}
+        release_name: Release v${{ steps.get_version.outputs.VERSION }}
+        tag_name: v${{ steps.get_version.outputs.VERSION }}
