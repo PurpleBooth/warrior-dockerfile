@@ -1,0 +1,15 @@
+options:
+  prev_tag: "versio-prev"
+
+projects:
+  - name: "warrior-dockerfile"
+    id: 1
+    labels: docker
+    version:
+      tags:
+        default: "0.0.0"
+
+sizes:
+  use_angular: true
+  patch: ["-"]
+  none: [ci]
