@@ -12,6 +12,9 @@ Differences:
 
 Note, once a day this will restart and re-pull the image.
 
+
+I have this file at `/etc/systemd/system/warrior.service`, update the `DOWNLOADER=` with your name.
+
 ``` ini
 [Unit]
 Description=ArchiveTeam Warrior
@@ -30,6 +33,16 @@ ExecStart=/usr/bin/docker run --pull always --rm --env DOWNLOADER=your_name_here
 [Install]
 WantedBy=multi-user.target
 ```
+
+next run 
+
+```shell
+sudo systemctl daemon-reload
+sudo systemctl enable warrior.service
+sudo systemctl start warrior.service
+```
+
+And then visit [raspberrypi.local:8001](http://raspberrypi.local:8001/) or [localhost:8001](http://localhost:8001/) depending on what's right for you.
 
 ## Config
 
