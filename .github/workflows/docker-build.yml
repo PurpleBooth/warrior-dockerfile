@@ -32,7 +32,6 @@ jobs:
         cache-from: type=registry,ref=ghcr.io/purplebooth/warrior-dockerfile:latest
         cache-to: type=inline
         tags: |
-          ghcr.io/purplebooth/warrior-dockerfile:latest
           ghcr.io/purplebooth/warrior-dockerfile:git-${{ github.sha }}
     - uses: chaaz/versio-actions/install@v1.1
       name: Install versio
