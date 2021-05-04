@@ -1,6 +1,11 @@
 # Cross Architecture Warrior Container
 
-I was a little frustrated by the ArchiveTeam Warrior docker container. It was fine, but it wasn't compiled for my Raspberry Pi so I complied it. 
+Reboot of the Warrior Container:
+
+Differences:
+* Works on x64 arch, arm6, arm7, arm64
+* Updated dependencies
+* Pipeline ensures latest dependencies
 
 
 ## Systemd Unit
