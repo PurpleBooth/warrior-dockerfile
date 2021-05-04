@@ -2,7 +2,7 @@
 <img alt="Warrior logo" src="https://www.archiveteam.org/images/f/f3/Archive_team.png" height="100px"><img alt="Docker logo" src="https://upload.wikimedia.org/wikipedia/commons/7/79/Docker_%28container_engine%29_logo.png" height="100px">
 
 
-Build, run, grab the container IP and access the web interface on port 8001.
+Build, run, grab the container IP and access the web interface on port 8001
 
 Available as a built image at `atdr.meo.ws/archiveteam/warrior-dockerfile`. To run the Warrior in the background, automatically start it again after machine reboot, and automatically update dependencies updates (via Watchtower), simply just
 
