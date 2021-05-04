@@ -5,7 +5,7 @@ Reboot of the Warrior Container:
 Differences:
 
 -   Works on x64 arch, arm6, arm7, arm64
--   Updated dependencies
+-   Underlying OS
 -   Pipeline ensures latest dependencies
 
 ## Systemd Unit
