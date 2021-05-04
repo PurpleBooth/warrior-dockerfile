@@ -78,6 +78,7 @@ RUN apt-get update \
         wget \
         rsync \
         build-essential \
+        lua-socket \
         flex \
     && rm -rf /var/lib/apt/lists/*
 
