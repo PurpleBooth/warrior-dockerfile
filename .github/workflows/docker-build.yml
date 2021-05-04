@@ -28,7 +28,7 @@ jobs:
       with:
         context: .
         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
-        push: ${{ github.ref == 'refs/heads/master' }}
+        push: ${{ github.ref == 'refs/heads/main' }}
         cache-from: type=registry,ref=ghcr.io/purplebooth/warrior-dockerfile:latest
         cache-to: type=inline
         tags: |
@@ -45,7 +45,7 @@ jobs:
         GITHUB_USER: ${{ github.actor }}
     - name: Generate release
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
-        'refs/heads/master' }}
+        'refs/heads/main' }}
       run: |
         versio release
       env:
@@ -54,16 +54,16 @@ jobs:
     - run: echo ::set-output "name=VERSION::$(  versio info -R -a -V | jq -r .[0].version
         )"
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
-        'refs/heads/master' }}
+        'refs/heads/main' }}
       id: get_version
     - name: Build and push
       uses: docker/build-push-action@v2
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
-        'refs/heads/master' }}
+        'refs/heads/main' }}
       with:
         context: .
         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
-        push: ${{ github.ref == 'refs/heads/master' }}
+        push: ${{ github.ref == 'refs/heads/main' }}
         cache-from: type=registry,ref=ghcr.io/purplebooth/warrior-dockerfile:latest
         cache-to: type=inline
         tags: |
@@ -71,14 +71,14 @@ jobs:
           ghcr.io/purplebooth/warrior-dockerfile:latest
     - uses: dlavrenuek/conventional-changelog-action@v1.1.1
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
-        'refs/heads/master' }}
+        'refs/heads/main' }}
       id: changelog
       with:
         from: v${{ steps.get_previous_version.outputs.PREVIOUS_VERSION }}
         to: v${{ steps.get_version.outputs.VERSION }}
     - id: create_release
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
-        'refs/heads/master' }}
+        'refs/heads/main' }}
       uses: ncipollo/release-action@v1.8.4
       with:
         allowUpdates: true
