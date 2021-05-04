@@ -69,6 +69,7 @@ jobs:
         cache-to: type=inline
         tags: |
           ghcr.io/purplebooth/warrior-dockerfile:v${{ steps.get_version.outputs.VERSION }}
+          ghcr.io/purplebooth/warrior-dockerfile:latest
     - uses: dlavrenuek/conventional-changelog-action@v1.1.1
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
         'refs/heads/master' }}
