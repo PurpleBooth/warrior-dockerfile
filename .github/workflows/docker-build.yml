@@ -79,12 +79,10 @@ jobs:
     - id: create_release
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
         'refs/heads/master' }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
       uses: ncipollo/release-action@v1.8.4
       with:
         allowUpdates: true
-        token: ${{ secrets.COMMITTER_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         body: ${{ steps.changelog.outputs.body }}
         name: Release v${{ steps.get_version.outputs.VERSION }}
         tag: v${{ steps.get_version.outputs.VERSION }}
