@@ -7,7 +7,7 @@ updates:
 - package-ecosystem: github-actions
   directory: /
   commit-message:
-    prefix: "ci"
+    prefix: ci
   schedule:
     interval: daily
 
@@ -15,14 +15,14 @@ updates:
 - package-ecosystem: gitsubmodule
   directory: /
   commit-message:
-    prefix: "fix"
+    prefix: fix
   schedule:
     interval: daily
 
   # Maintain dependencies for pip
 - package-ecosystem: pip
   commit-message:
-    prefix: "fix"
+    prefix: fix
   directory: /
   schedule:
     interval: daily
@@ -30,7 +30,7 @@ updates:
 # Enable version updates for Docker
 - package-ecosystem: docker
   commit-message:
-    prefix: "fix"
+    prefix: fix
   # Look for a `Dockerfile` in the `root` directory
   directory: /
   # Check for updates once a week

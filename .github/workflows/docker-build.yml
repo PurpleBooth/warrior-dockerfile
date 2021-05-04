@@ -45,7 +45,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_USER: ${{ github.actor }}
     - name: Generate release
-      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref == 'refs/heads/master' }}
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
+        'refs/heads/master' }}
       run: |
         versio release
       env:
@@ -53,11 +54,13 @@ jobs:
         GITHUB_USER: ${{ github.actor }}
     - run: echo ::set-output "name=VERSION::$(  versio info -R -a -V | jq -r .[0].version
         )"
-      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref == 'refs/heads/master' }}
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
+        'refs/heads/master' }}
       id: get_version
     - name: Build and push
       uses: docker/build-push-action@v2
-      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref == 'refs/heads/master' }}
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
+        'refs/heads/master' }}
       with:
         context: .
         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
@@ -67,17 +70,21 @@ jobs:
         tags: |
           ghcr.io/purplebooth/warrior-dockerfile:v${{ steps.get_version.outputs.VERSION }}
     - uses: dlavrenuek/conventional-changelog-action@v1.1.1
-      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref == 'refs/heads/master' }}
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
+        'refs/heads/master' }}
       id: changelog
       with:
         from: v${{ steps.get_previous_version.outputs.PREVIOUS_VERSION }}
         to: v${{ steps.get_version.outputs.VERSION }}
     - id: create_release
-      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref == 'refs/heads/master' }}
-      uses: actions/create-release@v1.1.4
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
+        'refs/heads/master' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
+      uses: ncipollo/release-action@v1.8.4
       with:
-        draft: false
-        prerelease: false
+        allowUpdates: true
+        token: ${{ secrets.COMMITTER_TOKEN }}
         body: ${{ steps.changelog.outputs.body }}
-        release_name: Release v${{ steps.get_version.outputs.VERSION }}
-        tag_name: v${{ steps.get_version.outputs.VERSION }}
+        name: Release v${{ steps.get_version.outputs.VERSION }}
+        tag: v${{ steps.get_version.outputs.VERSION }}
