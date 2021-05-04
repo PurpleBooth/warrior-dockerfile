@@ -3,16 +3,16 @@
 Reboot of the Warrior Container:
 
 Differences:
-* Works on x64 arch, arm6, arm7, arm64
-* Updated dependencies
-* Pipeline ensures latest dependencies
 
+-   Works on x64 arch, arm6, arm7, arm64
+-   Updated dependencies
+-   Pipeline ensures latest dependencies
 
 ## Systemd Unit
 
 Note, once a day this will restart and re-pull the image.
 
-```ini
+``` ini
 [Unit]
 Description=ArchiveTeam Warrior
 After=docker.service
@@ -35,12 +35,11 @@ WantedBy=multi-user.target
 
 This now works for Raspberry Pi like it did for other platforms.
 
-| ENV                  | JSON key             | Example           | Default |
-|----------------------|----------------------|-------------------|---------|
-| DOWNLOADER           | downloader           |                   |         |
-| HTTP_PASSWORD        | http_password        |                   |         |
-| HTTP_USERNAME        | http_username        |                   |         |
-| SELECTED_PROJECT     | selected_project     | `auto`, `tumblr`  |         |
-| WARRIOR_ID           | warrior_id           |                   |         |
-| CONCURRENT_ITEMS     | concurrent_items     |                   | `3`     |
-
+| ENV               | JSON key          | Example          | Default |
+|-------------------|-------------------|------------------|---------|
+| DOWNLOADER        | downloader        |                  |         |
+| HTTP\_PASSWORD    | http\_password    |                  |         |
+| HTTP\_USERNAME    | http\_username    |                  |         |
+| SELECTED\_PROJECT | selected\_project | `auto`, `tumblr` |         |
+| WARRIOR\_ID       | warrior\_id       |                  |         |
+| CONCURRENT\_ITEMS | concurrent\_items |                  | `3`     |
