@@ -69,7 +69,7 @@ jobs:
         tags: |
           ghcr.io/purplebooth/warrior-dockerfile:v${{ steps.get_version.outputs.VERSION }}
           ghcr.io/purplebooth/warrior-dockerfile:latest
-    - uses: dlavrenuek/conventional-changelog-action@v1.1.1
+    - uses: dlavrenuek/conventional-changelog-action@v1.1.2
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
         'refs/heads/main' }}
       id: changelog
