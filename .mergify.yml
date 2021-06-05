@@ -1,9 +1,24 @@
+queue_rules:
+- name: default
+  conditions:
+  - check-success=docker
+
 pull_request_rules:
-  - name: automatic merge for Dependabot pull requests
-    conditions:
-      - author~=^dependabot(|-preview)\[bot\]$
-      - check-success=docker
-    actions:
-      merge:
-        method: merge
-        strict: smart+fasttrack
+- name: request review on external contributor
+  conditions:
+  - -author=PurpleBooth
+  actions:
+    assign:
+      add_users:
+      - PurpleBooth
+
+- name: automatic rebase for dependencies
+  conditions:
+  - check-success=docker
+  - base=main
+  - author~=^dependabot(|-preview)\[bot\]$
+  actions:
+    queue:
+      method: rebase
+      rebase_fallback: merge
+      name: default
