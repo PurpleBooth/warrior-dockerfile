@@ -12,8 +12,8 @@ Differences:
 
 Note, once a day this will restart and re-pull the image.
 
-
-I have this file at `/etc/systemd/system/warrior.service`, update the `DOWNLOADER=` with your name.
+I have this file at `/etc/systemd/system/warrior.service`, update the
+`DOWNLOADER=` with your name.
 
 ``` ini
 [Unit]
@@ -34,25 +34,27 @@ ExecStart=/usr/bin/docker run --pull always --rm --env DOWNLOADER=your_name_here
 WantedBy=multi-user.target
 ```
 
-next run 
+next run
 
-```shell
+``` shell
 sudo systemctl daemon-reload
 sudo systemctl enable warrior.service
 sudo systemctl start warrior.service
 ```
 
-And then visit [raspberrypi.local:8001](http://raspberrypi.local:8001/) or [localhost:8001](http://localhost:8001/) depending on what's right for you.
+And then visit [raspberrypi.local:8001](http://raspberrypi.local:8001/)
+or [localhost:8001](http://localhost:8001/) depending on what's right
+for you.
 
 ## Config
 
 This now works for Raspberry Pi like it did for other platforms.
 
-| ENV               | JSON key          | Example          | Default |
-|-------------------|-------------------|------------------|---------|
-| DOWNLOADER        | downloader        |                  |         |
-| HTTP\_PASSWORD    | http\_password    |                  |         |
-| HTTP\_USERNAME    | http\_username    |                  |         |
-| SELECTED\_PROJECT | selected\_project | `auto`, `tumblr` |         |
-| WARRIOR\_ID       | warrior\_id       |                  |         |
-| CONCURRENT\_ITEMS | concurrent\_items |                  | `3`     |
+| ENV              | JSON key         | Example          | Default |
+|------------------|------------------|------------------|---------|
+| DOWNLOADER       | downloader       |                  |         |
+| HTTP_PASSWORD    | http_password    |                  |         |
+| HTTP_USERNAME    | http_username    |                  |         |
+| SELECTED_PROJECT | selected_project | `auto`, `tumblr` |         |
+| WARRIOR_ID       | warrior_id       |                  |         |
+| CONCURRENT_ITEMS | concurrent_items |                  | `3`     |
