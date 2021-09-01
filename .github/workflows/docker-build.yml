@@ -33,7 +33,7 @@ jobs:
         cache-to: type=inline
         tags: |
           ghcr.io/purplebooth/warrior-dockerfile:git-${{ github.sha }}
-    - uses: chaaz/versio-actions/install@v1.1
+    - uses: chaaz/versio-actions/install@v1.2
       name: Install versio
     - run: echo ::set-output "name=PREVIOUS_VERSION::$(  versio info -R -a -V | jq
         -r .[0].version )"
