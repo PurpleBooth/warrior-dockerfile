@@ -31,9 +31,9 @@ jobs:
         push: ${{ github.ref == 'refs/heads/main' }}
         pull: true
         cache-from: |
-          type=gha
+          type=registry,ref=ghcr.io/purplebooth/warrior-dockerfile:cache
           type=registry,ref=ghcr.io/purplebooth/warrior-dockerfile:latest
-        cache-to: type=gha,mode=max
+        cache-to: type=registry,ref=ghcr.io/purplebooth/warrior-dockerfile:cache,mode=max
         tags: |
           ghcr.io/purplebooth/warrior-dockerfile:git-${{ github.sha }}
     - uses: chaaz/versio-actions/install@v1.2
@@ -69,9 +69,9 @@ jobs:
         pull: true
         push: ${{ github.ref == 'refs/heads/main' }}
         cache-from: |
-          type=gha
+          type=registry,ref=ghcr.io/purplebooth/warrior-dockerfile:cache
           type=registry,ref=ghcr.io/purplebooth/warrior-dockerfile:latest
-        cache-to: type=gha,mode=max
+        cache-to: type=registry,ref=ghcr.io/purplebooth/warrior-dockerfile:cache,mode=max
         tags: |
           ghcr.io/purplebooth/warrior-dockerfile:v${{ steps.get_version.outputs.VERSION }}
           ghcr.io/purplebooth/warrior-dockerfile:latest
