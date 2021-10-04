@@ -85,7 +85,7 @@ jobs:
     - id: create_release
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') && github.ref ==
         'refs/heads/main' }}
-      uses: ncipollo/release-action@v1.8.9
+      uses: ncipollo/release-action@v1.8.10
       with:
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
