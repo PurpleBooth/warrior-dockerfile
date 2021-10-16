@@ -3,7 +3,8 @@ queue_rules:
   speculative_checks: 20
   batch_size: 20
   conditions:
-  - check-success=docker
+  - check-success~=^docker-build
+  - check-success~=^version
 
 pull_request_rules:
 - name: request review on external contributor
@@ -16,7 +17,8 @@ pull_request_rules:
 
 - name: automatic rebase for dependencies
   conditions:
-  - check-success=docker
+  - check-success~=^docker-build
+  - check-success~=^version
   - base=main
   - author~=^dependabot(|-preview)\[bot\]$
   actions:
