@@ -13,11 +13,6 @@ jobs:
   docker-build:
     uses: PurpleBooth/common-pipelines/.github/workflows/docker-build.yml@v0.4.2
 
-  lint-markdown:
-    uses: PurpleBooth/common-pipelines/.github/workflows/markdown-check.yml@v0.4.2
-    with:
-      skip_formatting: true
-
   version:
     uses: PurpleBooth/common-pipelines/.github/workflows/commit-check.yml@v0.4.2
 
@@ -26,7 +21,6 @@ jobs:
     needs:
       - docker-build
       - version
-      - lint-markdown
     outputs:
       version_bump: ${{ steps.release.outputs.version_bump }}
       current_version: ${{ steps.release.outputs.current_version }}
