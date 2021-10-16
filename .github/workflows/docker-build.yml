@@ -11,10 +11,10 @@ on:
 
 jobs:
   docker-build:
-    uses: PurpleBooth/common-pipelines/.github/workflows/docker-build.yml@v0.4.2
+    uses: PurpleBooth/common-pipelines/.github/workflows/docker-build.yml@v0.4.3
 
   version:
-    uses: PurpleBooth/common-pipelines/.github/workflows/commit-check.yml@v0.4.2
+    uses: PurpleBooth/common-pipelines/.github/workflows/commit-check.yml@v0.4.3
 
   release:
     if: github.ref == 'refs/heads/main'
@@ -61,7 +61,7 @@ jobs:
     if: needs.release.outputs.version_bump
     needs:
       - release
-    uses: PurpleBooth/common-pipelines/.github/workflows/docker-push.yml@v0.4.2
+    uses: PurpleBooth/common-pipelines/.github/workflows/docker-push.yml@v0.4.3
     with:
       current_version: ${{ needs.release.outputs.current_version }}
 
