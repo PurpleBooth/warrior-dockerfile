@@ -12,6 +12,8 @@ on:
 jobs:
   docker-build:
     uses: PurpleBooth/common-pipelines/.github/workflows/docker-build.yml@main
+    with:
+      platforms: linux/amd64,linux/arm/v7
 
   version:
     uses: PurpleBooth/common-pipelines/.github/workflows/commit-check.yml@main
@@ -64,4 +66,4 @@ jobs:
     uses: PurpleBooth/common-pipelines/.github/workflows/docker-push.yml@main
     with:
       current_version: ${{ needs.release.outputs.current_version }}
-
+      platforms: linux/amd64,linux/arm/v7
