@@ -5,7 +5,7 @@ queue_rules:
   conditions:
   - check-success~=^docker-build
   - check-success~=^version
-  - "#check-pending=0"
+  - "#check-pending<=1"
   - "#check-success>=2"
 
 pull_request_rules:
@@ -21,7 +21,7 @@ pull_request_rules:
   conditions:
   - check-success~=^docker-build
   - check-success~=^version
-  - "#check-pending=0"
+  - "#check-pending<=1"
   - "#check-success>=2"
   - base=main
   - author~=^dependabot(|-preview)\[bot\]$
