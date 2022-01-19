@@ -4,5 +4,5 @@ warc==0.2.1
 requests==2.27.1
 six==1.16.0
 warc==0.2.1
-zstandard==0.16.0
+zstandard==0.17.0
 seesaw==0.10.3
